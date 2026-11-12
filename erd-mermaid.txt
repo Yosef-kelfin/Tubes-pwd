@@ -1,0 +1,26 @@
+erDiagram
+    USER ||--o{ ITEM : membuat
+    
+    USER {
+        int id PK
+        string name
+        string email
+        string password
+        string teams
+        timestamp created_at
+    }
+    
+    ITEM {
+        int id PK
+        int user_id FK
+        string type
+        string title
+        string category
+        string location
+        string storage_location
+        date date
+        string description
+        string image
+        string status
+        timestamp created_at
+    }

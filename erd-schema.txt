@@ -1,0 +1,65 @@
+====================================================================
+ENTITY-RELATIONSHIP DIAGRAM (ERD) & DATABASE SCHEMA
+Project: FindIt! (Lost & Found UAJY)
+====================================================================
+
+1. ENTITIES & ATTRIBUTES
+--------------------------------------------------------------------
+
+[USER / PENGGUNA]
+- id                 : INT / VARCHAR (Primary Key)
+- name               : VARCHAR(100) (Nama Lengkap)
+- email              : VARCHAR(100) (Email UAJY / Unique)
+- password           : VARCHAR(255) (Hashed Password)
+- teams              : VARCHAR(255) (Link / Username Microsoft Teams)
+- created_at         : TIMESTAMP
+
+[ITEM / LAPORAN BARANG]
+- id                 : INT / VARCHAR (Primary Key)
+- user_id            : INT / VARCHAR (Foreign Key references USER.id)
+- type               : ENUM('hilang', 'ditemukan')
+- title              : VARCHAR(150) (Nama Barang)
+- category           : VARCHAR(50)  (Tumbler, Elektronik, dll)
+- location           : VARCHAR(150) (Lokasi Kejadian)
+- storage_location   : VARCHAR(150) (Lokasi Penyimpanan / Penanggung Jawab)
+- date               : DATE         (Tanggal Kejadian)
+- description        : TEXT         (Ciri-ciri khusus)
+- image              : VARCHAR(255) (Nama file foto upload)
+- status             : VARCHAR(50)  (Masih Dicari / Sudah Ditemukan / dll)
+- created_at         : TIMESTAMP
+
+
+2. RELATIONSHIP CARDINALITY
+--------------------------------------------------------------------
+- USER (1) --------< HAS_MANY >-------- (N) ITEM
+  * Satu User dapat membuat banyak Laporan Barang (Hilang / Ditemukan).
+  * Setiap Laporan Barang dimiliki oleh tepat satu User (Pelapor).
+
+
+3. RELATIONAL SCHEMA (SQL)
+--------------------------------------------------------------------
+
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    teams VARCHAR(255) DEFAULT '',
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE items (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    type ENUM('hilang', 'ditemukan') NOT NULL,
+    title VARCHAR(150) NOT NULL,
+    category VARCHAR(50) NOT NULL,
+    location VARCHAR(150) NOT NULL,
+    storage_location VARCHAR(150) DEFAULT '',
+    date DATE NOT NULL,
+    description TEXT,
+    image VARCHAR(255) DEFAULT '',
+    status VARCHAR(50) NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);

@@ -1,0 +1,23 @@
+====================================================================
+ERD NOTASI CHEN - FINDIT! (LOST & FOUND UAJY)
+====================================================================
+
+[ ENTITAS (Kotak) & ATRIBUT (Lingkaran) ]
+
+       [ email ]     [ name ]     [ password ]
+          \            |            /
+           \           |           /
+  (id)---- [      PENGGUNA      ] ---- (teams)
+           /           |           \
+          /            |            \
+     [ created_at ]    |        [ created_at ]
+                       |
+                       | <RELASI>
+                       |  [ MELAKUKAN / MEMBUAT ]
+                       |  Kardinalitas: 1 ke N (1 User memiliki banyak Laporan)
+                       |
+                       |
+  (id)---- [       LAPORAN      ] ---- (type)
+          /    /    |    \    \
+         /    /     |     \    \
+   [title] [category] [location] [date] [description] [image] [storage_location] [status]
